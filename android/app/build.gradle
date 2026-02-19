@@ -82,6 +82,13 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force 'androidx.core:core:1.13.1'
+            force 'androidx.core:core-ktx:1.13.1'
+        }
+    }
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -114,6 +121,17 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    // Force older androidx.core version compatible with React Native 0.73
+    constraints {
+        implementation("androidx.core:core:1.13.1") {
+            because("androidx.core 1.16.0+ requires Android Gradle plugin 8.6.0+")
+        }
+        implementation("androidx.core:core-ktx:1.13.1") {
+            because("androidx.core-ktx 1.16.0+ requires Android Gradle plugin 8.6.0+")
+        }
+    }
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
